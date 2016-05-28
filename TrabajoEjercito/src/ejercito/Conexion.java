@@ -12,7 +12,7 @@ public class Conexion {
 			this.conectar();
 		}
 		
-		//Conexión
+		//Conexión con la Base de Datos
 		private Connection conectar() throws SQLException
 		{
 			String CadenaConexion = "jdbc:mysql://localhost:3306/ejercito"
