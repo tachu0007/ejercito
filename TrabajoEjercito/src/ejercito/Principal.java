@@ -1,16 +1,16 @@
 package ejercito;
 
-import temperatura.MiMenu;
-import temperatura.Periodico;
+import ejercito.MiMenu;
+import ejercito.VEjercito;
 
 public class Principal {
 
 	public static void main(String[] args) {
 		
-		Periodico per=null;
+		VEjercito VE=null;
 		try
 		{
-			per=new Periodico();
+			VE=new VEjercito();
 			System.out.println("Conexión con la base de datos> ¡OK!");
 		}
 		catch (Exception e)
@@ -23,13 +23,13 @@ public class Principal {
 		//Menú
 		MiMenu menu = new MiMenu();
 		menu.add("Listado");
-		menu.add("Nuevo");
-		menu.add("Modificar (uno a uno)");
-		menu.add("Eliminar (uno a uno)");
+		menu.add("Añadir vehículo");
+		menu.add("Modificar vehículo (uno a uno)");
+		menu.add("Eliminar vehículo(uno a uno)");
 		menu.add("Empieza por");
 		menu.add("Incluye");
-		menu.add("Medias");
-		menu.add("Salida");
+		menu.add("Agrupación");
+		menu.add("Salida del programa");
 		
 		MiMenu reducido = new MiMenu();
 		reducido.add("Nuevo");
@@ -38,12 +38,12 @@ public class Principal {
 		boolean salir = false;
 		do
 		{
-			if (per. estaVacia()==true)
+			if (VE. estaVacia()==true)
 			{
 				System.out.println("BD vacía");
-				switch(reducido.ver("Periódico DAM"))
+				switch(reducido.ver("Vehículos Ejército"))
 				{
-				case 1:per.añadir();
+				case 1:VE.añadir();
 				break;
 				default:
 					salir=true;
@@ -52,15 +52,15 @@ public class Principal {
 			}
 			else
 			{
-				switch(menu.ver("Periodico DAM"))
+				switch(menu.ver("Vehículos Ejército"))
 				{
-					case 1: per.listado();break;
-					case 2: per.añadir();break;
-					case 3: per.modificarUnoAUno();break;
-					case 4: per.eliminarUnoAUno();break;
-					case 5: per.empiezaPor();break;
-					case 6: per.incluye();break;
-					case 7: per.medias();break;
+					case 1: VE.listado();break;
+					case 2: VE.añadir();break;
+					case 3: VE.modificarUnoAUno();break;
+					case 4: VE.eliminarUnoAUno();break;
+					case 5: VE.empiezaPor();break;
+					case 6: VE.incluye();break;
+					case 7: VE.agrupacion();break;
 					default:
 						salir=true;
 					break;
@@ -68,7 +68,7 @@ public class Principal {
 			}
 		}
 		while (!salir);
-		System.out.println("CMA-DAM. Fin del programa");
+		System.out.println("Fin del programa. SERGIO TEJERINA y CARLOS CAÑETE");
 	}//Fin del main
 }//Fin de la clase
 
