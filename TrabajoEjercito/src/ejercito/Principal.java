@@ -26,8 +26,8 @@ public class Principal {
 		menu.add("Añadir vehículo");
 		menu.add("Modificar vehículo (uno a uno)");
 		menu.add("Eliminar vehículo(uno a uno)");
-		menu.add("Empieza por");
-		menu.add("Incluye");
+		menu.add("Vehículo cuyo nombre empieza por");
+		menu.add("Vehículo cuyo nombre incluya");
 		menu.add("Agrupación");
 		menu.add("Salida del programa");
 		
