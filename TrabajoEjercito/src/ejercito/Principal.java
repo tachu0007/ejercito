@@ -25,7 +25,9 @@ public class Principal {
 		menu.add("Listado");
 		menu.add("Añadir vehículo");
 		menu.add("Modificar vehículo (uno a uno)");
+		menu.add("Modificar vehiculos de un almacén");
 		menu.add("Eliminar vehículo(uno a uno)");
+		menu.add("Eliminar vehiculos entre un rango de fechas matriculación");
 		menu.add("Vehículo cuyo nombre empieza por");
 		menu.add("Vehículo cuyo nombre incluya");
 		menu.add("Agrupación");
@@ -57,10 +59,12 @@ public class Principal {
 					case 1: VE.listado();break;
 					case 2: VE.añadir();break;
 					case 3: VE.modificarUnoAUno();break;
-					case 4: VE.eliminarUnoAUno();break;
-					case 5: VE.empiezaPor();break;
-					case 6: VE.incluye();break;
-					case 7: VE.agrupacion();break;
+					case 4: /*VE.modificarGrupo()*/;break;
+					case 5: VE.eliminarUnoAUno();break;
+					case 6: VE.eliminarGrupo();break;
+					case 7: VE.empiezaPor();break;
+					case 8: VE.incluye();break;
+					case 9: VE.agrupacion();break;
 					default:
 						salir=true;
 					break;

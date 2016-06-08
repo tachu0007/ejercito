@@ -55,6 +55,7 @@ public class VEjercito {
 		public void añadir() 
 		{
 			String consulta="SELECT * FROM vehículos ORDER BY nombre";
+			String consalm="SELECT * FROM almacenes";
 			try(
 					 Connection cn = this.conectar();
 					Statement st=cn.createStatement(
@@ -64,7 +65,7 @@ public class VEjercito {
 				)
 			{
 				System.out.println("\n [Nuevo]");
-				String localidad=teclado.nextLine().trim();
+				String nom=teclado.nextLine().trim();
 				
 				System.out.print("Nombre del vehículo: ");
 				String v = teclado.nextLine().trim();
@@ -84,18 +85,50 @@ public class VEjercito {
 					}
 				}
 				
-				System.out.print("IdAlmacen: ");
-				int almac = Integer.parseInt(teclado.nextLine());
+				System.out.print("Fecha de matriculación: ");
+				int fecha = Integer.parseInt(teclado.nextLine());
+				
+				try(ResultSet rsa=st.executeQuery(consalm))
+				{	
+					boolean swalmacen=true;					
+					while(swalmacen)
+					{
+						System.out.print("Introduzca el número 0 para ver el listado de Almacenes\nIdAlmacén: ");
+						int almac = Integer.parseInt(teclado.nextLine());
 					
-				rs.moveToInsertRow();
-				rs.updateString("Nombre", v);
-				rs.updateString("Matrícula", mat);
-				rs.updateBoolean("Turbo", turbo);
-				rs.updateInt("IdAlmacén", almac);
-				
-				rs.insertRow();
-				
-				System.out.println("¡Datos insertados en la tabla con éxito!");
+						if(almac==0)
+						{
+								System.out.printf("%-20s %6s %6s %-20s\n", "Id_Almacen", "Nombre", "Dirección", "Jefe de Almacén");
+								System.out.printf("%-20s %6s %6s %-20s\n", "~~~~~~~~~~", "~~~~~~", "~~~~~~~~~", "~~~~~~~~~~~~~~~"); 
+								while(rsa.next())
+								{
+									int Id=rsa.getInt("Id_Almacén");
+									String nombre=rsa.getString("Nombre");
+									String direccion=rsa.getString("Dirección");
+									String jefe=rsa.getString("Jefe de almacén");
+									
+									//Salida en consola
+									System.out.printf("%-20d %6s %6s %s\n", Id, nombre, direccion, jefe);
+								}			
+						}
+						else
+						{
+							swalmacen=false;
+						}
+												
+						rs.moveToInsertRow();
+						rs.updateString("Nombre", v);
+						rs.updateString("Matrícula", mat);
+						rs.updateBoolean("Turbo", turbo);
+						rs.updateInt("FechaMatriculación", fecha);
+						rsa.updateInt("IdAlmacén", almac);
+						
+						rs.insertRow();
+						rsa.insertRow();
+						
+						System.out.println("¡Datos insertados en la tabla con éxito!");
+					}
+				}
 			}
 			catch(SQLException e)
 			{
@@ -122,10 +155,11 @@ public class VEjercito {
 					String nombre=rs.getString("Nombre");
 					String matricula=rs.getString("Matrícula");
 					boolean turbo=rs.getBoolean("Turbo");
+					int fecha=rs.getInt("FechaMatriculación");
 					int almacen=rs.getInt("IdAlmacén");
 					
 					//Salida en consola
-					System.out.printf("%-20s %6s %6B %d\n", nombre, matricula, turbo, almacen);
+					System.out.printf("|%-20s | %6s | %6B | %d | %d|\n", nombre, matricula, turbo, fecha, almacen);
 				}
 			}
 			catch (SQLException e)
@@ -141,8 +175,8 @@ public class VEjercito {
 		
 		private void encabezado()
 		{
-			System.out.printf("%-20s %6s %6s %-20s\n", "Vehículo", "Matrícula", "Turbo", "IdAlmacén");
-			System.out.printf("%-20s %6s %6s %-20s\n", "_________", "______", "______", "__________");
+			System.out.printf("%-20s %10s %8s %s %-20s\n", "Vehículo", "Matrícula", "Turbo", "FechaMatriculación", "IdAlmacén");
+			System.out.printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		}
 		
 		private void cabecera (String titulo)
@@ -184,7 +218,7 @@ public class VEjercito {
 			System.out.println("¿Vehículo?(Empieza por)");
 			String buscar = teclado.nextLine().trim().toLowerCase();
 			
-			String s="select * from vehículos where Nombre like ? order by Nombre";
+			String s="SELECT * FROM vehículos WHERE Nombre LIKE ? ORDER BY Nombre";
 			
 			
 			int cont=0;
@@ -281,10 +315,11 @@ public class VEjercito {
 					String nombre = rs.getString("Nombre");
 					String matricula = rs.getString("Matrícula");
 					boolean turbo = rs.getBoolean("Turbo");
+					int fecha = rs.getInt("FechaMatriculación");
 					int almacen = rs.getInt("IdAlmacén");
 					
 					//Salida en consola
-					System.out.printf("%-20s %6s %6B %-20d\n", nombre, matricula, turbo, almacen);
+					System.out.printf("%-20s %6s %6B %d %-20d\n", nombre, matricula, turbo, fecha, almacen);
 					
 					System.out.print("¿Eliminar? (s/N)");
 					String respuesta=teclado.nextLine().toLowerCase().trim();
@@ -344,10 +379,11 @@ public class VEjercito {
 						String nombre = rs.getString("Nombre");
 						String matricula = rs.getString("Matrícula");
 						boolean turbo = rs.getBoolean("Turbo");
+						int fechamatriculacion = rs.getInt("FechaMatriculación");
 						int almacen = rs.getInt("IdAlmacén");
 					 
 					 //Salida en consola
-					 System.out.printf("Vehículo: %s\nMatrícula: %s\nTurbo: %B\nAlmacén: %d\n", nombre, matricula, turbo, almacen);
+					 System.out.printf("Vehículo: %s\nMatrícula: %s\nTurbo: %B\nFecha de matriculación: %d\nAlmacén: %d\n", nombre, matricula, turbo, fechamatriculacion, almacen);
 					 
 					 System.out.print("¿Modificar? (s/N)");
 					 String respuesta=teclado.nextLine().toLowerCase().trim();
@@ -385,7 +421,15 @@ public class VEjercito {
 								 }
 								 rs.updateBoolean("Turbo", turbo);
 							 }
-								 
+							
+							 System.out.print("¿Fecha de matriculación? ["+fechamatriculacion+"]");
+							 String fecha = teclado.nextLine().trim().toLowerCase();
+							 if(fecha.length()>0)
+							 {
+								 int fechamat = Integer.parseInt(fecha);
+								 rs.updateInt("FechaMatriculación", fechamat);
+							 }
+							 
 								 System.out.print("¿Almacén? ["+almacen+"]");
 								 String almac=teclado.nextLine();
 								 if(almac.length()>0)
@@ -409,6 +453,76 @@ public class VEjercito {
 				System.out.printf("Modificados: %2d vehículo/s de %2d\n", modificados, cont);
 		 }
 		 
+		 //Modificación en grupo
+		 public void eliminarGrupo()
+		 {
+			 System.out.print("Dame dos fechas (fechas entre las que se matricularon los vehículos)\nFecha (mínima): ");
+			 int fecha1 = Integer.parseInt(teclado.nextLine());
+			 System.out.print("Fecha (máxima): ");
+			 int fecha2 = Integer.parseInt(teclado.nextLine());
+			 
+			 //Tratamiento fechas
+			 if(fecha1>fecha2)
+			 {
+				 int fechabuffer=fecha2;
+				 fecha2=fecha1;
+				 fecha1=fechabuffer;
+			 }
+			 String cons="SELECT * FROM vehículos WHERE FechaMatriculación BETWEEN " + fecha1 + " AND " + fecha2 + " ORDER BY Nombre";
+			 String cons2="DELETE FROM vehículos WHERE FechaMatriculación BETWEEN " + fecha1 + " AND " + fecha2 + "";
+			 int cont=0, eli=0;
+			 try
+			 (
+					 Connection cn = this.conectar();
+						Statement st=cn.createStatement(
+								ResultSet.TYPE_SCROLL_SENSITIVE,
+								ResultSet.CONCUR_UPDATABLE);
+						ResultSet rs= st.executeQuery(cons);
+			)
+			 {
+				 while(rs.next())
+				 {
+					 if(cont==0)
+						 cabecera("[Eliminar]");
+					 cont++;
+					 
+					 //Ver datos
+						String nombre = rs.getString("Nombre");
+						String matricula = rs.getString("Matrícula");
+						boolean turbo = rs.getBoolean("Turbo");
+						int fechamatriculacion = rs.getInt("FechaMatriculación");
+						int almacen = rs.getInt("IdAlmacén");
+					 
+					 //Salida en consola
+					 System.out.printf("Vehículo: %s\nMatrícula: %s\nTurbo: %B\nFecha de matriculación: %d\nAlmacén: %d\n", nombre, matricula, turbo, fechamatriculacion, almacen);
+
+				 }
+				 if(cont>0)
+				 {
+					 System.out.printf("\n¿Desea eliminarlos? (s/N)");
+					 String resp = teclado.nextLine().trim().toLowerCase();
+					 if(resp.length()>0)
+					 {
+						 char r=resp.charAt(0);
+						 if(r=='s')
+						 {
+						 
+							 eli=st.executeUpdate(cons2);
+						 }
+					 }
+				 }
+				 System.out.printf("\nSe han encontrado %d vehículos y se han eliminados %d\n", cont, eli);
+			}
+			catch(SQLException e)
+			{
+				System.out.println("Error BD: "+e.getMessage());
+			}
+			catch(Exception e)
+			{
+				System.out.print("Error: "+e.getMessage());
+				e.printStackTrace();
+			}
+		 }
 		 //Consulta SQL. Procedimiento almacenado (CallableStatement)
 		 
 		 //Trigger
