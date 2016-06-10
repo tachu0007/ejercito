@@ -22,15 +22,14 @@ public class Principal {
 		
 		//Menú
 		MiMenu menu = new MiMenu();
-		menu.add("Listado");
+		menu.add("Listado de vehículos ");
 		menu.add("Añadir vehículo");
 		menu.add("Modificar vehículo (uno a uno)");
-		menu.add("Modificar vehiculos de un almacén");
+		menu.add("Modificar vehiculos (moverlos de un almacén a otro por grupo)");
 		menu.add("Eliminar vehículo(uno a uno)");
-		menu.add("Eliminar vehiculos entre un rango de fechas matriculación");
-		menu.add("Vehículo cuyo nombre empieza por");
-		menu.add("Vehículo cuyo nombre incluya");
-		menu.add("Agrupación");
+		menu.add("Eliminar vehículos entre un rango de años de matriculación (por grupo)");
+		menu.add("Búsqueda de soldados por medallas");
+		menu.add("Moda por turbo");
 		menu.add("Salida del programa");
 		
 		MiMenu reducido = new MiMenu();
@@ -59,12 +58,11 @@ public class Principal {
 					case 1: VE.listado();break;
 					case 2: VE.añadir();break;
 					case 3: VE.modificarUnoAUno();break;
-					case 4: /*VE.modificarGrupo()*/;break;
+					case 4: VE.modificarGrupo();break;
 					case 5: VE.eliminarUnoAUno();break;
 					case 6: VE.eliminarGrupo();break;
-					case 7: VE.empiezaPor();break;
-					case 8: VE.incluye();break;
-					case 9: VE.agrupacion();break;
+					case 7: VE.busqueda();break;
+					case 8: VE.moda();break;
 					default:
 						salir=true;
 					break;
@@ -72,7 +70,6 @@ public class Principal {
 			}
 		}
 		while (!salir);
-		System.out.println("Fin del programa. SERGIO TEJERINA y CARLOS CAÑETE");
+		System.out.println("Fin del programa.\nSERGIO TEJERINA Martínez y CARLOS CAÑETE García-Arisco les desean un buen día");
 	}//Fin del main
 }//Fin de la clase
-
